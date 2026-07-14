@@ -30,7 +30,7 @@ const STRINGS = {
         ph: "your@email.com", phPhone: "Phone (optional)", button: "Join the waitlist", done: "✓ You're on the list — we'll be in touch.",
       },
       cards: [
-        { ed: "ED. 014", tag: "Available seats", sold: false, title: "Boato - Supper Club", sub: "Secret location", meta: "NEXT BOATO · SEX 17 JUL · 20:00 · 10 SEATS\nADDRESS 48H BEFORE", hideAddr: true, price: "€60", video: "uploads/supperclub.mp4", bg: "linear-gradient(165deg,#3C4130,#1B1916)" },
+        { ed: "ED. 014", tag: "Available seats", sold: false, title: "Boato - Supper Club", sub: "Secret location", meta: "NEXT BOATO · SEX 17 JUL · 20:00 · 10 SEATS\nADDRESS 48H BEFORE", hideAddr: true, price: "€60", video: "uploads/supperclub.mp4", bg: "linear-gradient(165deg,#3C4130,#1B1916)", date: "2026-07-17" },
         { ed: "ED. 013", tag: "Coming soon", title: "Boato - Pop Up", sub: "Secret venues", meta: "The same Boato spirit, in a different setting every time.", price: "", cta: "See more →", kind: "popup", video: "uploads/0612.mp4", hideAddr: true, bg: "linear-gradient(165deg,#6B2330,#2A1116)" },
         { ed: "ED. 012", tag: "Open", title: "Boato - Corporate", sub: "For your company", meta: "Moments designed to bring people, teams and ideas together through food.", price: "", cta: "Learn more →", hideAddr: true, video: "uploads/corporate.mp4", bg: "linear-gradient(165deg,#A65C3B,#3A2519)" },
         { ed: "ED. 011", tag: "Open", title: "Boato - Private", sub: "At your place", meta: "Boato adapted to your space, your pace and your people.", price: "", cta: "Learn more →", hideAddr: true, video: "uploads/privado.mp4", bg: "linear-gradient(165deg,#4A5234,#1B1916)" },
@@ -139,7 +139,7 @@ const STRINGS = {
         ph: "o-seu@email.com", phPhone: "Telefone (opcional)", button: "Entrar na lista de espera", done: "✓ Está na lista — entraremos em contacto.",
       },
       cards: [
-        { ed: "ED. 014", tag: "Lugares disponíveis", sold: false, title: "Boato - Supper Club", sub: "Localização secreta", meta: "PRÓXIMO - SEX 17 JUL \n20:00 · 10 LUGARES", price: "€60", video: "uploads/supperclub.mp4", bg: "linear-gradient(165deg,#3C4130,#1B1916)" },
+        { ed: "ED. 014", tag: "Lugares disponíveis", sold: false, title: "Boato - Supper Club", sub: "Localização secreta", meta: "PRÓXIMO - SEX 17 JUL \n20:00 · 10 LUGARES", price: "€60", video: "uploads/supperclub.mp4", bg: "linear-gradient(165deg,#3C4130,#1B1916)", date: "2026-07-17" },
         { ed: "ED. 013", tag: "Coming soon", title: "Boato - Pop Up", sub: "Locais secretos", meta: "O mesmo espírito Boato, num cenário sempre diferente.", price: "", cta: "Ver mais →", kind: "popup", video: "uploads/0612.mp4", hideAddr: true, bg: "linear-gradient(165deg,#6B2330,#2A1116)" },
         { ed: "ED. 012", tag: "Aberto", title: "Boato - Corporate", sub: "Para a sua empresa", meta: "Momentos à mesa pensados para aproximar pessoas, equipas e ideias através da comida.", price: "", cta: "Saiba mais →", hideAddr: true, video: "uploads/corporate.mp4", bg: "linear-gradient(165deg,#A65C3B,#3A2519)" },
         { ed: "ED. 011", tag: "Aberto", title: "Boato - Privado", sub: "No teu espaço", meta: "O Boato adaptado ao teu espaço, ao teu ritmo e às tuas pessoas.", price: "", cta: "Saiba mais →", hideAddr: true, video: "uploads/privado.mp4", bg: "linear-gradient(165deg,#4A5234,#1B1916)" },

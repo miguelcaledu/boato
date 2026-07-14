@@ -135,7 +135,9 @@ function EventCard({ d, L, onReserve }) {
           placeholder={L.code === "PT" ? "Largue uma foto do prato" : "Drop a dish photo"}>
         </image-slot>
         }
-        <span className={"ecard__tag" + (d.sold ? " ecard__tag--sold" : "")} style={{ backgroundColor: "rgba(12, 11, 10, 0.7)" }}>{d.tag}</span>
+        <span className={"ecard__tag" + (d.sold || d.date && window.isDateFull && window.isDateFull(d.date) ? " ecard__tag--sold" : "")} style={{ backgroundColor: "rgba(12, 11, 10, 0.7)" }}>
+          {d.date && window.seatsLeft ? (window.isDateFull(d.date) ? L.modal.calFull : window.seatsLeftLabel(window.seatsLeft(d.date), L.modal)) : d.tag}
+        </span>
       </div>
       <div className="ecard__b">
         <Eyebrow>{d.sub}</Eyebrow>

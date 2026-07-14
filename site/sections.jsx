@@ -534,4 +534,4 @@ function ReserveModal({ L, onClose, card, paid }) {
 
 }
 
-Object.assign(window, { Inquiry, Footer, ReserveModal, sendFormEmail, sendGuestConfirmation });
+Object.assign(window, { Inquiry, Footer, ReserveModal, sendFormEmail, sendGuestConfirmation, seatsLeft, isDateFull, seatsLeftLabel });

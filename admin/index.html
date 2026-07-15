@@ -71,6 +71,23 @@
 
   .empty{font-family:var(--font-mono);font-size:12.5px;color:var(--ink-4);padding:20px 0;}
 
+  /* ---------- Add-submission modal ---------- */
+  .modal-overlay{display:none;position:fixed;inset:0;background:rgba(12,11,10,.5);z-index:100;align-items:center;justify-content:center;padding:24px;}
+  .modal-overlay.on{display:flex;}
+  .modal{width:min(480px,100%);max-height:90vh;overflow-y:auto;background:var(--paper);border:1px solid var(--line-strong);padding:32px 30px;}
+  .modal h3{font-family:var(--font-display);font-weight:400;font-size:1.4rem;margin:0 0 20px;}
+  .modal label{display:block;font-family:var(--font-mono);font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3);margin:0 0 6px;}
+  .modal .field{margin-bottom:14px;}
+  .modal select,.modal input,.modal textarea{width:100%;font-family:var(--font-body);font-size:14px;color:var(--ink);background:var(--mist);
+    border:1px solid var(--line-strong);border-radius:2px;padding:10px 12px;outline:none;transition:border-color .16s;}
+  .modal select:focus,.modal input:focus,.modal textarea:focus{border-color:var(--olive);}
+  .modal__actions{display:flex;gap:12px;margin-top:22px;}
+  .modal__actions button{flex:1;font-family:var(--font-body);font-size:14px;font-weight:700;padding:13px;border:0;border-radius:2px;cursor:pointer;transition:background .16s;}
+  .modal__actions .save{background:var(--ink);color:var(--paper);}
+  .modal__actions .save:hover{background:#000;}
+  .modal__actions .cancel{background:none;border:1px solid var(--line-strong);color:var(--ink);}
+  .modal__actions .cancel:hover{background:var(--mist);}
+
   @media(max-width:640px){
     .login-card{padding:32px 24px;}
     .topbar{padding:14px 16px;gap:12px;}
@@ -109,10 +126,38 @@
     <div class="searchbox"><input type="text" id="search" placeholder="Search name or email…"></div>
     <div class="topbar-actions">
       <span class="pill-count" id="totalCount"></span>
+      <button class="btn-mini" id="addBtn">+ Add submission</button>
       <button class="btn-mini" id="logoutBtn">Log out</button>
     </div>
   </div>
   <div class="content" id="content"></div>
+</div>
+
+<div class="modal-overlay" id="addOverlay">
+  <div class="modal">
+    <h3>Add submission manually</h3>
+    <div class="field">
+      <label>Section</label>
+      <select id="addType">
+        <option value="supper">Supper club reservation</option>
+        <option value="popup">Pop-up reservation</option>
+        <option value="private">Private / corporate inquiry</option>
+        <option value="waitlist">Waitlist signup</option>
+        <option value="newsletter">Newsletter signup</option>
+      </select>
+    </div>
+    <div class="field"><label>Name</label><input id="addName" type="text" placeholder="Guest name"></div>
+    <div class="field"><label>Email</label><input id="addEmail" type="email" placeholder="guest@email.com"></div>
+    <div class="field"><label>Phone</label><input id="addPhone" type="text" placeholder="+351…"></div>
+    <div class="field"><label>Seats</label><input id="addSeats" type="text" placeholder="e.g. 2"></div>
+    <div class="field"><label>Dinner</label><input id="addDinner" type="text" placeholder="e.g. Boato - Supper Club"></div>
+    <div class="field"><label>Date</label><input id="addDate" type="text" placeholder="e.g. Friday, 17 July 2026"></div>
+    <div class="field"><label>Note</label><textarea id="addNote" rows="2" placeholder="Dietary notes, occasion, etc."></textarea></div>
+    <div class="modal__actions">
+      <button class="cancel" id="addCancel">Cancel</button>
+      <button class="save" id="addSave">Add submission</button>
+    </div>
+  </div>
 </div>
 
 <script src="../site/submissions-store.js"></script>
@@ -146,10 +191,9 @@ function fmtTs(iso){
 
 function rowFields(type, data){
   let keys;
-  if (type === "supper" || type === "popup") keys = ["Seats","Email","Phone","Dinner","Date","Pop-up","Note"];
-  else if (type === "private") keys = ["Email","Phone","Type","Guests","Occasion"];
+  if (type === "supper" || type === "popup" || type === "private") keys = ["Name","Email","Phone","Seats","Dinner","Date","Note"];
   else keys = ["Email"];
-  return keys.filter((k) => data[k] && String(data[k]).trim() !== "");
+  return keys;
 }
 
 function cardTitle(type, data){
@@ -226,7 +270,7 @@ function buildCard(r){
       <div class="card__ts">${escapeHtml(fmtTs(r.ts))}</div>
     </div>
     <div class="card__rows">
-      ${fields.map((k) => `<div class="card__row"><b>${escapeHtml(FIELD_LABELS[k] || k)}</b><span>${escapeHtml(r.data[k])}</span></div>`).join("")}
+      ${fields.map((k) => `<div class="card__row"><b>${escapeHtml(FIELD_LABELS[k] || k)}</b><span>${escapeHtml(r.data[k] || "")}</span></div>`).join("")}
     </div>
     <div class="card__actions">
       ${canPay ? `<button data-act="paid">${r.paid ? "Unmark paid" : "Confirm paid"}</button>` : ""}
@@ -278,6 +322,40 @@ async function loadAndRender(){
 }
 
 document.getElementById("search").addEventListener("input", render);
+
+/* ---------- Add submission manually ---------- */
+function openAddModal(){
+  ["addName","addEmail","addPhone","addSeats","addDinner","addDate","addNote"].forEach((id) => document.getElementById(id).value = "");
+  document.getElementById("addType").value = "supper";
+  document.getElementById("addOverlay").classList.add("on");
+}
+function closeAddModal(){
+  document.getElementById("addOverlay").classList.remove("on");
+}
+document.getElementById("addBtn").addEventListener("click", openAddModal);
+document.getElementById("addCancel").addEventListener("click", closeAddModal);
+document.getElementById("addOverlay").addEventListener("click", (e) => { if (e.target.id === "addOverlay") closeAddModal(); });
+
+document.getElementById("addSave").addEventListener("click", async () => {
+  const type = document.getElementById("addType").value;
+  const data = {
+    Name: document.getElementById("addName").value.trim(),
+    Email: document.getElementById("addEmail").value.trim(),
+    Phone: document.getElementById("addPhone").value.trim(),
+    Seats: document.getElementById("addSeats").value.trim(),
+    Dinner: document.getElementById("addDinner").value.trim(),
+    Date: document.getElementById("addDate").value.trim(),
+    Note: document.getElementById("addNote").value.trim()
+  };
+  Object.keys(data).forEach((k) => { if (!data[k]) delete data[k]; });
+  if (!data.Name && !data.Email){
+    alert("Add at least a name or email.");
+    return;
+  }
+  await window.BoatoSubmissions.save(type, data);
+  closeAddModal();
+  await loadAndRender();
+});
 
 /* ---------- Auth ---------- */
 function showDash(){

@@ -395,6 +395,8 @@ function ReserveModal({ L, onClose, card, paid }) {
   const m = L.modal;
   const loc = L.code === "PT" ? "pt-PT" : "en-GB";
   const isPopup = !!(card && card.kind === "popup");
+  const isPrivateCard = !!(card && /corporate|privad|private/i.test(card.title || ""));
+  const seatOpts = isPrivateCard ? ["2–4", "5–8", "9–14", "15+"] : m.seatOpts;
   const withCal = !card || !card.cta;
   const showGrid = isPopup && !popup;
   const popupLabel = popup ? popup.name + " · " + popup.date + " · " + popup.place : "";
@@ -467,7 +469,7 @@ function ReserveModal({ L, onClose, card, paid }) {
                     <div className="field-row">
                       <div className="field"><label>{m.fName}</label><input name="Name" required placeholder={m.phName} /></div>
                       <div className="field"><label>{m.fSeats}</label>
-                        <select name="Seats">{seatChoices(m.seatOpts, withCal && date ? seatsLeft(date) : null).map((o) => <option key={o}>{o}</option>)}</select></div>
+                        <select name="Seats">{seatChoices(seatOpts, withCal && date ? seatsLeft(date) : null).map((o) => <option key={o}>{o}</option>)}</select></div>
                     </div>
                     <div className="field"><label>{m.fEmail}</label><input name="Email" required type="email" placeholder={m.phEmail} /></div>
                     <div className="field"><label>{m.fPhone}</label><input name="Phone" required type="tel" placeholder={m.phPhone} /></div>

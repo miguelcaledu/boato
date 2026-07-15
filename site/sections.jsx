@@ -62,7 +62,7 @@ const BOOKINGS_KEY = "boato.bookings.v2";
 // on the site add on top of this. Edit these as seats fill up.
 const INITIAL_BOOKED = {
   "2026-07-11": 10,
-  "2026-07-17": 9,
+  "2026-07-17": 10,
   "2026-07-24": 10
 };
 function readBookings() {

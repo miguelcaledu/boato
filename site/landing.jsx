@@ -60,12 +60,7 @@ function LpHero({ onReserve, tweaks, L, ctaLabel }) {
   const serifMode = tweaks.headline === "serif";
   return (
     <section className={"lp-hero" + (tweaks.navStyle === "transparent" ? " is-tall" : "")} id="top">
-      <image-slot
-        id="boato-hero"
-        shape="rect"
-        fit="cover"
-        placeholder={L.code === "PT" ? "Largue aqui uma foto de mesa à luz das velas" : "Drop a candlelit table photo"}>
-      </image-slot>
+      <div className="lp-hero__img" style={{ backgroundImage: `url(${window.__resources && window.__resources.heroDesktop || "uploads/hero-desktop.jpg"})` }} aria-hidden="true"></div>
       <div className="lp-hero__mobimg" style={{ backgroundImage: `url(${window.__resources && window.__resources.heroMobile || "site/assets/hero-mobile.png"})` }} aria-hidden="true"></div>
       <div className="lp-hero__scrim"></div>
 

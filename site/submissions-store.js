@@ -154,9 +154,11 @@ async function remove(id) {
    single line at each form instead of touching every submit handler. */
 function inferType(subject, data) {
   const s = (subject || "").toLowerCase();
+  const dinner = (data && data["Dinner"] || "").toLowerCase();
   if (s.includes("private/corporate")) return "private";
   if (s.includes("waitlist")) return "waitlist";
   if (s.includes("newsletter")) return "newsletter";
+  if (dinner.includes("corporate") || dinner.includes("privad") || dinner.includes("private")) return "private";
   if (s.includes("reservation")) return data && data["Pop-up"] ? "popup" : "supper";
   return "other";
 }

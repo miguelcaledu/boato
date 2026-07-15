@@ -72,21 +72,19 @@
 .lp-hero{position:relative;background:var(--black);overflow:hidden;
   min-height:min(94vh,940px);display:flex;align-items:center;justify-content:center;}
 .lp-hero.is-tall{min-height:100vh;}
-.lp-hero image-slot{position:absolute;inset:0;width:100%;height:100%;z-index:0;
-  color:rgba(244,239,230,.7);}
-.lp-hero image-slot::part(frame){
-  background:radial-gradient(135% 105% at 50% 28%, #2C2219 0%, #18130F 52%, #0C0B0A 100%);}
-.lp-hero image-slot::part(image){filter:brightness(1.0);}
+.lp-hero__img{position:absolute;inset:0;width:100%;height:100%;z-index:0;
+  background:radial-gradient(135% 105% at 50% 28%, #2C2219 0%, #18130F 52%, #0C0B0A 100%);
+  background-size:cover;background-position:center;background-repeat:no-repeat;pointer-events:none;}
 /* Mobile-only hero photo — covers the image-slot below 600px */
 .lp-hero__mobimg{display:none;position:absolute;inset:0;z-index:1;
   background-size:cover;background-position:center;background-repeat:no-repeat;pointer-events:none;}
 @media(max-width:600px){.lp-hero__mobimg{display:block;filter:brightness(.78);}}
 .lp-hero__scrim{position:absolute;inset:0;z-index:1;pointer-events:none;
   background:
-    radial-gradient(125% 95% at 50% 42%, rgba(12,11,10,0) 0%, rgba(12,11,10,.18) 50%, rgba(12,11,10,.5) 100%),
-    linear-gradient(180deg, rgba(12,11,10,.5) 0%, rgba(12,11,10,.05) 34%, rgba(12,11,10,.55) 100%);
-  opacity:calc(.44 + var(--lp-scrim)*.3);}
-@media(max-width:600px){.lp-hero__scrim{opacity:calc(.58 + var(--lp-scrim)*.3);}}
+    radial-gradient(125% 95% at 50% 42%, rgba(12,11,10,0) 0%, rgba(12,11,10,.08) 50%, rgba(12,11,10,.3) 100%),
+    linear-gradient(180deg, rgba(12,11,10,.32) 0%, rgba(12,11,10,.02) 34%, rgba(12,11,10,.38) 100%);
+  opacity:calc(.28 + var(--lp-scrim)*.3);}
+@media(max-width:600px){.lp-hero__scrim{opacity:calc(.4 + var(--lp-scrim)*.3);}}
 
 .lp-hero__inner{position:relative;z-index:3;text-align:center;color:#fff;padding:0 24px;max-width:1100px;}
 .lp-hero__eyebrow{font-family:var(--font-mono);font-size:12px;letter-spacing:.34em;text-transform:uppercase;

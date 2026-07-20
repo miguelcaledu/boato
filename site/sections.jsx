@@ -449,7 +449,7 @@ function ReserveModal({ L, onClose, card, paid }) {
                 if (!web3ok) {setSubmitting(false);setSendErr(true);return;}
 
                 // 2) EmailJS guest confirmation — fires only AFTER Web3Forms succeeds.
-                const guestOk = await sendGuestConfirmation({ email: data.Email, name: data.Name, seats: data.Seats, dinner: titleText, dateLabel: dateLabel || popupLabel, reservationDate: data.Date || dateLabel || popupLabel, reservationTime: "20:00", withCal, lang: L.code });
+                const guestOk = await sendGuestConfirmation({ email: data.Email, name: data.Name, seats: data.Seats, dinner: titleText, dateLabel: dateLabel || popupLabel, reservationDate: data.Date || dateLabel || popupLabel, reservationTime: data.Time || "20:00", withCal, lang: L.code });
                 console.log("[Boato] Guest confirmation email:", guestOk ? "sent" : "not sent");
 
                 // 3) Commit the booking and advance to the success / payment step.
@@ -471,6 +471,11 @@ function ReserveModal({ L, onClose, card, paid }) {
                       <div className="field"><label>{m.fSeats}</label>
                         <select name="Seats">{seatChoices(seatOpts, withCal && date ? seatsLeft(date) : null).map((o) => <option key={o}>{o}</option>)}</select></div>
                     </div>
+                    {isPopup &&
+                <div className="field">
+                        <label>{m.fTime}</label>
+                        <select name="Time">{["19:00", "19:30", "21:00", "21:30"].map((o) => <option key={o}>{o}</option>)}</select></div>
+                }
                     <div className="field"><label>{m.fEmail}</label><input name="Email" required type="email" placeholder={m.phEmail} /></div>
                     <div className="field"><label>{m.fPhone}</label><input name="Phone" required type="tel" placeholder={m.phPhone} /></div>
                     <div className="field"><label>{m.fNote}</label>

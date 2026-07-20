@@ -61,9 +61,9 @@ const BOOKINGS_KEY = "boato.bookings.v2";
 // Seats already reserved per date (baseline everyone sees). New bookings made
 // on the site add on top of this. Edit these as seats fill up.
 const INITIAL_BOOKED = {
-  "2026-07-11": 10,
-  "2026-07-17": 10,
-  "2026-07-24": 10
+  "2026-09-11": 0,
+  "2026-09-18": 0,
+  "2026-09-25": 0
 };
 function readBookings() {
   try {return JSON.parse(localStorage.getItem(BOOKINGS_KEY)) || {};}
@@ -378,7 +378,7 @@ function Calendar({ dates, value, onChange, locale, none }) {
         {cells.map((d, i) => {
           if (!d) return <span key={i} className="cal__cell cal__cell--empty"></span>;
           const k = iso(d);const inAvail = availSet.has(k);const full = inAvail && isDateFull(k);const ok = inAvail && !full;const sel = value === k;
-          return <button type="button" key={i} disabled={!ok} title={full ? none || "" : undefined} className={"cal__cell" + (ok ? " is-avail" : "") + (full ? " is-full" : "") + (sel ? " is-sel" : "")} onClick={() => onChange(k)}>{d}</button>;
+          return <button type="button" key={i} disabled={!ok} title={full ? none || "" : undefined} className={"cal__cell" + (ok ? " is-avail" : "") + (full ? " is-full" : "") + (sel ? " is-sel" : "") + (sel && k === "2026-09-11" ? " is-sel-green" : "")} onClick={() => onChange(k)}>{d}</button>;
         })}
       </div>
     </div>);
@@ -400,7 +400,7 @@ function ReserveModal({ L, onClose, card, paid }) {
   const withCal = !card || !card.cta;
   const showGrid = isPopup && !popup;
   const popupLabel = popup ? popup.name + " · " + popup.date + " · " + popup.place : "";
-  const titleText = popup ? popup.name : card && card.title ? card.title : m.title;
+  const titleText = popup ? popup.name : date === "2026-09-11" && !isPrivateCard && !isPopup ? "Boato x GreensandNuts" : card && card.title ? card.title : m.title;
   const eyebrowText = withCal ? m.eyebrow : showGrid ? m.popupsLabel : L.code === "PT" ? "Pedir informações" : "Request information";
   const dateLabel = date ? new Intl.DateTimeFormat(loc, { weekday: "long", day: "numeric", month: "long", year: "numeric" }).format(new Date(date)) : "";
   return (
@@ -411,7 +411,7 @@ function ReserveModal({ L, onClose, card, paid }) {
             <div className="modal__top" style={{ padding: "20px 24px 10px" }}>
               <div>
                 <Eyebrow>{eyebrowText}</Eyebrow>
-                <h3 style={{ marginTop: 8 }}>{showGrid ? card.title : titleText}</h3>
+                <h3 style={{ marginTop: 8 }}>{titleText === "Boato x GreensandNuts" ? <React.Fragment><span style={{ color: "#DF0000" }}>Boato</span> x <span style={{ color: "#67863E" }}>GreensandNuts</span></React.Fragment> : showGrid ? card.title : titleText}</h3>
               </div>
               <button className="modal__x" onClick={onClose}>✕</button>
             </div>
@@ -420,7 +420,7 @@ function ReserveModal({ L, onClose, card, paid }) {
             <div className="ppick">
                   {m.popups.map((p) =>
               <button type="button" key={p.name} className="ppcard" style={{ "--pp-bg": p.bg }} onClick={() => setPopup(p)}>
-                      <span className="ppcard__img"></span>
+                      <span className="ppcard__img" style={p.img ? { backgroundImage: `url(${p.img})`, backgroundSize: "cover", backgroundPosition: "center" } : undefined}></span>
                       <span className="ppcard__body">
                         <span className="ppcard__name">{p.name}</span>
                         <span className="ppcard__meta">{p.date}{p.place ? " · " + p.place : ""}</span>

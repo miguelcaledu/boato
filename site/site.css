@@ -196,6 +196,7 @@ a{color:inherit;}
 .cal__cell.is-avail:hover{background:var(--mist);}
 .cal__cell.is-sel{background:var(--red);color:#fff;box-shadow:none;}
 .cal__cell.is-sel::after{background:#fff;}
+.cal__cell.is-sel-green{background:#67863E !important;}
 .cal__cell.is-full{color:var(--ink-4);cursor:not-allowed;position:relative;box-shadow:inset 0 0 0 1px var(--line);opacity:.85;}
 .cal__cell.is-full::before{content:"";position:absolute;left:18%;right:18%;top:50%;height:1px;background:var(--red);transform:rotate(-12deg);}
 .cal__cell.is-full::after{content:"";position:absolute;bottom:5px;left:50%;transform:translateX(-50%);width:4px;height:4px;border-radius:50%;background:var(--red);}
@@ -204,6 +205,8 @@ a{color:inherit;}
 
 /* ---------- Pop-up picker (2×2 cards) ---------- */
 .ppick{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+.ppick:has(>:only-child){grid-template-columns:1fr;}
+.ppick:has(>:only-child) .ppcard__img{height:220px;}
 .ppcard{display:flex;flex-direction:column;text-align:left;cursor:pointer;padding:0;
   background:var(--paper);border:1px solid var(--line-strong);border-radius:2px;overflow:hidden;
   transition:border-color var(--dur-fast) var(--ease),transform var(--dur-fast) var(--ease);}

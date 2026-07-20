@@ -98,7 +98,7 @@ const STRINGS = {
       calFull: "Full — table complete", calLeftOne: "Seats available", calLeft: "Seats available",
       popupsLabel: "Upcoming pop ups", popupNone: "Please choose a pop up", popupBack: "← All pop ups",
       popups: [
-        { name: "Boato x Taberna Sakra", date: "06 Aug", place: "Alverca", bg: "linear-gradient(165deg,#2A2520,#0C0B0A)", img: "site/assets/popup-sakra-9.png" },
+        { name: "Boato x Taberna Sakra", date: "06 Aug", place: "Alverca", bg: "linear-gradient(165deg,#2A2520,#0C0B0A)", img: "site/assets/popup-sakra-11-sharp.png" },
       ],
       dates: ["2026-09-11", "2026-09-18", "2026-09-25"],
       okTitle: "You're on the list.", okBody: "We'll confirm your seats by email shortly, and whisper the address 24 hours before. Welcome to the rumor.", close: "Close",
@@ -204,7 +204,7 @@ const STRINGS = {
       calFull: "Esgotado — mesa completa", calLeftOne: "resta 1 lugar", calLeft: "restam {n} lugares",
       popupsLabel: "Próximos pop ups", popupNone: "Escolha um pop up", popupBack: "← Todos os pop ups",
       popups: [
-        { name: "Boato x Taberna Sakra", date: "06 de agosto", place: "Alverca", bg: "linear-gradient(165deg,#2A2520,#0C0B0A)", img: "site/assets/popup-sakra-9.png" },
+        { name: "Boato x Taberna Sakra", date: "06 de agosto", place: "Alverca", bg: "linear-gradient(165deg,#2A2520,#0C0B0A)", img: "site/assets/popup-sakra-11-sharp.png" },
       ],
       dates: ["2026-09-11", "2026-09-18", "2026-09-25"],
       okTitle: "Está na lista.", okBody: "Confirmaremos os seus lugares por email em breve, e sussurraremos a morada 24 horas antes. Bem-vindo ao boato.", close: "Fechar",

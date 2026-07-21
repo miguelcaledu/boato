@@ -1,0 +1,202 @@
+/* ============================================================
+   BOATO SUPPER CLUB — Foundations
+   Colors + Typography tokens
+   ============================================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Spline+Sans+Mono:wght@400;500&display=swap');
+
+/* ---- Little Micro Sans Trial — brand sans, self-hosted ---- */
+@font-face{font-family:"Little Micro Sans";src:url("../assets/fonts/LittleMicroSansTrial-Reg.otf") format("opentype");font-weight:400;font-style:normal;font-display:swap;}
+@font-face{font-family:"Little Micro Sans";src:url("../assets/fonts/LittleMicroSansTrial-Bold.otf") format("opentype");font-weight:700;font-style:normal;font-display:swap;}
+
+:root {
+  /* ---------- Type families ---------- */
+  --font-display: "Cormorant Garamond", "Times New Roman", serif;
+  --font-body:    "Little Micro Sans", system-ui, -apple-system, sans-serif;
+  --font-mono:    "Spline Sans Mono", ui-monospace, "SFMono-Regular", monospace;
+
+  /* ---------- Core palette ---------- */
+  --paper:        #F4F0E7;
+  --paper-2:      #ECE6D8;
+  --paper-3:      #E2DACA;
+
+  --ink:          #1B1916;
+  --ink-2:        #3A352D;
+  --ink-3:        #6E6655;
+  --ink-4:        #9A9078;
+  --black:        #0C0B0A;
+
+  --red:          #CC0A0A;
+  --red-deep:     #A40808;
+  --red-bright:   #DA0001;
+
+  --mist:         #F8F6F1;
+  --ash:          #BDBAB2;
+  --slate:        #6F6E6A;
+
+  --olive:        #565C3F;
+  --olive-deep:   #3C4130;
+  --olive-soft:   #7C815F;
+
+  --wine:         #6B2330;
+  --wine-deep:    #4E1822;
+  --wine-soft:    #8A3A45;
+
+  --clay:         #A65C3B;
+  --sand:         #CFC4AC;
+  --stone:        #B3A992;
+  --line:         #CFC6B2;
+  --line-strong:  #B6AB92;
+
+  /* ---------- Semantic surface tokens ---------- */
+  --bg:           var(--paper);
+  --bg-alt:       var(--paper-2);
+  --bg-invert:    var(--ink);
+  --fg:           var(--ink);
+  --fg-2:         var(--ink-2);
+  --fg-muted:     var(--ink-3);
+  --fg-invert:    var(--paper);
+  --accent:       var(--red);
+  --accent-deep:  var(--wine);
+  --brand:        var(--olive);
+  --border:       var(--line);
+  --border-strong:var(--line-strong);
+
+  --on-invert-fg:        #F0EADC;
+  --on-invert-muted:     #A89E89;
+  --on-invert-line:      rgba(240,234,220,0.16);
+  --on-invert-accent:    var(--red-bright);
+
+  /* ---------- Type scale ---------- */
+  --step-display: clamp(3.5rem, 7vw, 6.5rem);
+  --step-h1:      clamp(2.6rem, 4.5vw, 4rem);
+  --step-h2:      clamp(2rem, 3vw, 2.75rem);
+  --step-h3:      1.6rem;
+  --step-h4:      1.25rem;
+  --step-body-lg: 1.1875rem;
+  --step-body:    1.0625rem;
+  --step-sm:      0.9375rem;
+  --step-xs:      0.8125rem;
+  --step-label:   0.75rem;
+
+  /* ---------- Spacing scale ---------- */
+  --sp-1: 4px; --sp-2: 8px; --sp-3: 12px; --sp-4: 16px; --sp-5: 24px;
+  --sp-6: 32px; --sp-7: 48px; --sp-8: 64px; --sp-9: 96px; --sp-10: 128px;
+
+  /* ---------- Radii ---------- */
+  --radius-0: 0px;
+  --radius-1: 2px;
+  --radius-2: 4px;
+  --radius-pill: 999px;
+
+  /* ---------- Borders ---------- */
+  --hairline: 1px solid var(--border);
+  --hairline-strong: 1px solid var(--border-strong);
+  --rule: 1px solid var(--ink);
+
+  /* ---------- Elevation ---------- */
+  --shadow-0: none;
+  --shadow-1: 0 1px 2px rgba(27,25,22,0.06);
+  --shadow-2: 0 8px 30px -12px rgba(27,25,22,0.22);
+
+  /* ---------- Motion ---------- */
+  --ease: cubic-bezier(0.22, 0.61, 0.36, 1);
+  --ease-soft: cubic-bezier(0.4, 0, 0.2, 1);
+  --dur-fast: 160ms;
+  --dur: 320ms;
+  --dur-slow: 600ms;
+
+  /* ---------- Layout ---------- */
+  --maxw: 1240px;
+  --maxw-text: 64ch;
+  --gutter: clamp(20px, 5vw, 80px);
+}
+
+/* ============================================================
+   Semantic type roles — apply via class
+   ============================================================ */
+.eyebrow {
+  font-family: var(--font-mono);
+  font-size: var(--step-label);
+  font-weight: 500;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--fg-muted);
+}
+
+.display {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: var(--step-display);
+  line-height: 0.98;
+  letter-spacing: -0.01em;
+}
+
+h1, .h1 {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: var(--step-h1);
+  line-height: 1.04;
+  letter-spacing: -0.005em;
+}
+
+h2, .h2 {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: var(--step-h2);
+  line-height: 1.08;
+}
+
+h3, .h3 {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: var(--step-h3);
+  line-height: 1.2;
+}
+
+h4, .h4 {
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: var(--step-h4);
+  line-height: 1.3;
+  letter-spacing: -0.01em;
+}
+
+p, .body {
+  font-family: var(--font-body);
+  font-weight: 400;
+  font-size: var(--step-body);
+  line-height: 1.62;
+  color: var(--fg-2);
+}
+
+.body-lg {
+  font-family: var(--font-body);
+  font-size: var(--step-body-lg);
+  line-height: 1.6;
+  color: var(--fg-2);
+}
+
+.small { font-size: var(--step-sm); line-height: 1.5; }
+.caption {
+  font-family: var(--font-body);
+  font-size: var(--step-xs);
+  line-height: 1.45;
+  color: var(--fg-muted);
+}
+
+.lead {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 400;
+  font-size: 1.6rem;
+  line-height: 1.4;
+  color: var(--fg);
+}
+
+.meta {
+  font-family: var(--font-mono);
+  font-size: var(--step-xs);
+  letter-spacing: 0.04em;
+  color: var(--fg-muted);
+}

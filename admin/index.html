@@ -6,7 +6,7 @@
 <meta name="robots" content="noindex, nofollow">
 <title>Admin — Boato Supper Club</title>
 <link rel="icon" type="image/png" href="../favicon.png">
-<link rel="stylesheet" href="../site/colors_and_type.css">
+<link rel="stylesheet" href="../css/tokens.css">
 <style>
   *{box-sizing:border-box;}
   body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--font-body);}
@@ -150,6 +150,7 @@
     <div class="field"><label>Email</label><input id="addEmail" type="email" placeholder="guest@email.com"></div>
     <div class="field"><label>Phone</label><input id="addPhone" type="text" placeholder="+351…"></div>
     <div class="field"><label>Seats</label><input id="addSeats" type="text" placeholder="e.g. 2"></div>
+    <div class="field"><label>Time (pop-up only)</label><input id="addTime" type="text" placeholder="e.g. 21:00"></div>
     <div class="field"><label>Dinner</label><input id="addDinner" type="text" placeholder="e.g. Boato - Supper Club"></div>
     <div class="field"><label>Date</label><input id="addDate" type="text" placeholder="e.g. Friday, 17 July 2026"></div>
     <div class="field"><label>Note</label><textarea id="addNote" rows="2" placeholder="Dietary notes, occasion, etc."></textarea></div>
@@ -160,7 +161,7 @@
   </div>
 </div>
 
-<script src="../site/submissions-store.js"></script>
+<script src="../js/submissions-store.js"></script>
 <script>
 /* ============================================================
    Shared-password gate. Client-side only — fine for a small
@@ -178,7 +179,7 @@ const SECTIONS = [
   { type: "newsletter", title: "Newsletter signups" }
 ];
 
-const FIELD_LABELS = { Name:"Name", Email:"Email", Phone:"Phone", Seats:"Seats", Dinner:"Dinner",
+const FIELD_LABELS = { Name:"Name", Email:"Email", Phone:"Phone", Seats:"Seats", Time:"Time", Dinner:"Dinner",
   Date:"Date", "Pop-up":"Pop-up", Note:"Note", Type:"Type", Guests:"Guests", Occasion:"Occasion" };
 
 function fmtTs(iso){
@@ -191,7 +192,8 @@ function fmtTs(iso){
 
 function rowFields(type, data){
   let keys;
-  if (type === "supper" || type === "popup" || type === "private") keys = ["Name","Email","Phone","Seats","Dinner","Date","Note"];
+  if (type === "popup") keys = ["Name","Email","Phone","Seats","Time","Dinner","Date","Note"];
+  else if (type === "supper" || type === "private") keys = ["Name","Email","Phone","Seats","Dinner","Date","Note"];
   else keys = ["Email"];
   return keys;
 }
@@ -325,7 +327,7 @@ document.getElementById("search").addEventListener("input", render);
 
 /* ---------- Add submission manually ---------- */
 function openAddModal(){
-  ["addName","addEmail","addPhone","addSeats","addDinner","addDate","addNote"].forEach((id) => document.getElementById(id).value = "");
+  ["addName","addEmail","addPhone","addSeats","addTime","addDinner","addDate","addNote"].forEach((id) => document.getElementById(id).value = "");
   document.getElementById("addType").value = "supper";
   document.getElementById("addOverlay").classList.add("on");
 }
@@ -343,6 +345,7 @@ document.getElementById("addSave").addEventListener("click", async () => {
     Email: document.getElementById("addEmail").value.trim(),
     Phone: document.getElementById("addPhone").value.trim(),
     Seats: document.getElementById("addSeats").value.trim(),
+    Time: document.getElementById("addTime").value.trim(),
     Dinner: document.getElementById("addDinner").value.trim(),
     Date: document.getElementById("addDate").value.trim(),
     Note: document.getElementById("addNote").value.trim()

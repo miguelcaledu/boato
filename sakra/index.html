@@ -308,22 +308,25 @@ function buildCard(r){
     render();
   });
 
-  const saveTimeBtn = card.querySelector("[data-save-time]");
-  if (saveTimeBtn){
+  const timeEditSpan = card.querySelector(".time-edit");
+  if (timeEditSpan){
+    const saveBtn = timeEditSpan.querySelector("button.save");
+    const cancelBtn = timeEditSpan.querySelector("button.cancel");
+    const input = timeEditSpan.querySelector("input");
+
     const commit = async () => {
-      const input = document.getElementById("timeInput-" + r.id);
-      const newData = { ...d, Time: input.value.trim() };
+      const newTime = input.value.trim();
+      const newData = { ...d, Time: newTime };
       await window.BoatoSubmissions.setData(r.id, newData);
       r.data = newData;
       editingTimeId = null;
       render();
     };
-    saveTimeBtn.addEventListener("click", commit);
-    const input = card.querySelector("#timeInput-" + r.id);
+
+    if (saveBtn) saveBtn.addEventListener("click", commit);
     if (input) input.addEventListener("keydown", (e) => { if (e.key === "Enter") commit(); });
+    if (cancelBtn) cancelBtn.addEventListener("click", () => { editingTimeId = null; render(); });
   }
-  const cancelTimeBtn = card.querySelector("[data-cancel-time]");
-  if (cancelTimeBtn) cancelTimeBtn.addEventListener("click", () => { editingTimeId = null; render(); });
 
   return card;
 }

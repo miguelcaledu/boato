@@ -189,14 +189,19 @@ function matchesSearch(row, q){
 }
 
 function groupByTimeSlot(rows){
-  const slot19 = [];
-  const slot21 = [];
+  const slot1900 = [];
+  const slot1930 = [];
+  const slot2100 = [];
+  const slot2130 = [];
   rows.forEach((r) => {
     const time = (r.data && r.data.Time || "").toLowerCase();
-    if (time.startsWith("21")) slot21.push(r);
-    else slot19.push(r);
+    if (time.includes("19:30")) slot1930.push(r);
+    else if (time.includes("19")) slot1900.push(r);
+    else if (time.includes("21:30")) slot2130.push(r);
+    else if (time.includes("21")) slot2100.push(r);
+    else slot1900.push(r); // default to 19:00 if no time
   });
-  return { slot19, slot21 };
+  return { slot1900, slot1930, slot2100, slot2130 };
 }
 
 function render(){
@@ -215,32 +220,30 @@ function render(){
     return;
   }
 
-  const { slot19, slot21 } = groupByTimeSlot(rows);
+  const { slot1900, slot1930, slot2100, slot2130 } = groupByTimeSlot(rows);
 
   const wrap = document.createElement("div");
   wrap.className = "slots-wrap";
 
-  if (slot19.length > 0){
-    const s19 = document.createElement("div");
-    s19.className = "time-slot";
-    s19.innerHTML = `<h3 class="slot-title">19:00</h3>`;
-    const cards19 = document.createElement("div");
-    cards19.className = "cards";
-    slot19.forEach((r) => cards19.appendChild(buildCard(r)));
-    s19.appendChild(cards19);
-    wrap.appendChild(s19);
-  }
+  const slots = [
+    { time: "19:00", data: slot1900 },
+    { time: "19:30", data: slot1930 },
+    { time: "21:00", data: slot2100 },
+    { time: "21:30", data: slot2130 }
+  ];
 
-  if (slot21.length > 0){
-    const s21 = document.createElement("div");
-    s21.className = "time-slot";
-    s21.innerHTML = `<h3 class="slot-title">21:00</h3>`;
-    const cards21 = document.createElement("div");
-    cards21.className = "cards";
-    slot21.forEach((r) => cards21.appendChild(buildCard(r)));
-    s21.appendChild(cards21);
-    wrap.appendChild(s21);
-  }
+  slots.forEach(({ time, data }) => {
+    if (data.length > 0){
+      const slot = document.createElement("div");
+      slot.className = "time-slot";
+      slot.innerHTML = `<h3 class="slot-title">${time}</h3>`;
+      const cards = document.createElement("div");
+      cards.className = "cards";
+      data.forEach((r) => cards.appendChild(buildCard(r)));
+      slot.appendChild(cards);
+      wrap.appendChild(slot);
+    }
+  });
 
   content.appendChild(wrap);
 }

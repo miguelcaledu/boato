@@ -45,30 +45,70 @@
   .btn-mini:hover{background:var(--ink);color:var(--paper);border-color:var(--ink);}
 
   .content{max-width:var(--maxw);margin:0 auto;padding:36px var(--gutter) 100px;}
+  .slots-wrap{display:flex;flex-direction:column;gap:40px;}
+  .time-slot{padding:0;}
+  .slot-title{font-family:var(--font-display);font-weight:400;font-size:1.8rem;color:var(--ink);margin:0 0 20px;text-align:center;}
   .cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px;}
-  .card{background:var(--mist);border:1px solid var(--line);padding:18px 20px;}
+  .card{background:var(--mist);border:1px solid var(--line);padding:18px 20px;position:relative;}
+  .card.arrived{border-left:3px solid var(--olive);}
   .card__top{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;margin-bottom:10px;}
   .card__name{font-family:var(--font-display);font-size:1.2rem;line-height:1.15;}
+  .card__badge{font-family:var(--font-mono);font-size:9px;letter-spacing:.08em;text-transform:uppercase;color:var(--olive);display:block;margin-top:2px;}
   .card__ts{font-family:var(--font-mono);font-size:10px;letter-spacing:.04em;color:var(--ink-4);white-space:nowrap;margin-top:3px;}
   .card__rows{display:flex;flex-direction:column;gap:5px;}
-  .card__row{font-size:13.5px;line-height:1.4;color:var(--ink-2);display:flex;gap:6px;}
+  .card__row{font-size:13.5px;line-height:1.4;color:var(--ink-2);display:flex;gap:6px;align-items:center;}
   .card__row b{font-family:var(--font-mono);font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);
     font-weight:600;flex-shrink:0;min-width:56px;padding-top:2px;}
   .card__row span{word-break:break-word;}
+  .card__row .time-edit{display:flex;gap:6px;flex:1;}
+  .card__row .time-edit input{flex:1;min-width:0;font-family:var(--font-body);font-size:13px;color:var(--ink);
+    background:var(--paper);border:1px solid var(--olive);border-radius:2px;padding:5px 8px;outline:none;}
+  .card__row .time-edit button{font-family:var(--font-mono);font-size:9.5px;letter-spacing:.06em;text-transform:uppercase;
+    border:0;background:none;cursor:pointer;padding:0 4px;}
+  .card__row .time-edit .save{color:var(--olive);font-weight:700;}
+  .card__row .time-edit .cancel{color:var(--ink-3);}
+
+  .card__actions{display:flex;gap:12px;flex-wrap:wrap;padding-top:12px;margin-top:12px;border-top:1px solid var(--line);}
+  .card__actions button{font-family:var(--font-mono);font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;
+    background:none;border:0;color:var(--ink-3);cursor:pointer;padding:0;transition:color .16s;font-weight:600;}
+  .card__actions button:hover{color:var(--red);}
+  .card__actions button.is-active{color:var(--olive);}
+  .card__actions button.is-active:hover{color:var(--olive-deep);}
+  .card__actions button.danger:hover{color:var(--red);}
 
   .empty{font-family:var(--font-mono);font-size:12.5px;color:var(--ink-4);padding:20px 0;}
+
+  /* ---------- Add-reservation modal ---------- */
+  .modal-overlay{display:none;position:fixed;inset:0;background:rgba(12,11,10,.5);z-index:100;align-items:center;justify-content:center;padding:24px;}
+  .modal-overlay.on{display:flex;}
+  .modal{width:min(440px,100%);max-height:90vh;overflow-y:auto;background:var(--paper);border:1px solid var(--line-strong);padding:32px 30px;}
+  .modal h3{font-family:var(--font-display);font-weight:400;font-size:1.4rem;margin:0 0 20px;}
+  .modal label{display:block;font-family:var(--font-mono);font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3);margin:0 0 6px;}
+  .modal .field{margin-bottom:14px;}
+  .modal input,.modal textarea{width:100%;font-family:var(--font-body);font-size:14px;color:var(--ink);background:var(--mist);
+    border:1px solid var(--line-strong);border-radius:2px;padding:10px 12px;outline:none;transition:border-color .16s;}
+  .modal input:focus,.modal textarea:focus{border-color:var(--olive);}
+  .modal__actions{display:flex;gap:12px;margin-top:22px;}
+  .modal__actions button{flex:1;font-family:var(--font-body);font-size:14px;font-weight:700;padding:13px;border:0;border-radius:2px;cursor:pointer;transition:background .16s;}
+  .modal__actions .save{background:var(--ink);color:var(--paper);}
+  .modal__actions .save:hover{background:#000;}
+  .modal__actions .cancel{background:none;border:1px solid var(--line-strong);color:var(--ink);}
+  .modal__actions .cancel:hover{background:var(--mist);}
 
   @media(max-width:640px){
     .login-card{padding:32px 24px;}
     .topbar{padding:14px 16px;gap:12px;}
     .topbar h1{font-size:1.3rem;}
     .searchbox{flex:1 1 100%;max-width:none;order:3;}
-    .topbar-actions{width:100%;justify-content:space-between;order:4;margin-left:0;}
+    .topbar-actions{width:100%;justify-content:space-between;order:4;margin-left:0;flex-wrap:wrap;gap:10px;}
     .content{padding:20px 16px 70px;}
+    .slots-wrap{gap:30px;}
+    .slot-title{font-size:1.4rem;margin-bottom:16px;}
     .cards{grid-template-columns:1fr;gap:12px;}
     .card{padding:16px;}
     .card__top{flex-direction:column;gap:4px;}
     .card__row b{min-width:52px;}
+    .card__actions{gap:8px 14px;}
     .login-card input,.searchbox input{font-size:16px;}
   }
 </style>
@@ -91,6 +131,7 @@
     <div class="searchbox"><input type="text" id="search" placeholder="Search name or email…"></div>
     <div class="topbar-actions">
       <span class="pill-count" id="totalCount"></span>
+      <button class="btn-mini" id="addBtn">+ Add reservation</button>
       <button class="btn-mini" id="exportBtn">Export CSV</button>
       <button class="btn-mini" id="logoutBtn">Log out</button>
     </div>
@@ -98,10 +139,26 @@
   <div class="content" id="content"></div>
 </div>
 
+<div class="modal-overlay" id="addOverlay">
+  <div class="modal">
+    <h3>Add reservation manually</h3>
+    <div class="field"><label>Name</label><input id="addName" type="text" placeholder="Guest name"></div>
+    <div class="field"><label>Email</label><input id="addEmail" type="email" placeholder="guest@email.com"></div>
+    <div class="field"><label>Phone</label><input id="addPhone" type="text" placeholder="+351…"></div>
+    <div class="field"><label>Seats</label><input id="addSeats" type="text" placeholder="e.g. 2"></div>
+    <div class="field"><label>Time</label><input id="addTime" type="text" placeholder="e.g. 21:00"></div>
+    <div class="field"><label>Note</label><textarea id="addNote" rows="2" placeholder="Allergies, occasion, etc."></textarea></div>
+    <div class="modal__actions">
+      <button class="cancel" id="addCancel">Cancel</button>
+      <button class="save" id="addSave">Add reservation</button>
+    </div>
+  </div>
+</div>
+
 <script src="../js/submissions-store.js"></script>
 <script>
 /* ============================================================
-   Shared-password gate, read-only view scoped to a single dinner.
+   Shared-password gate, view scoped to a single dinner.
    Client-side only — fine for sharing a guest list with a venue
    partner, not a substitute for real auth. Change the password by
    editing SAKRA_PASSWORD below.
@@ -123,11 +180,23 @@ function escapeHtml(s){
 }
 
 let ALL = [];
+let editingTimeId = null;
 
 function matchesSearch(row, q){
   if (!q) return true;
   const hay = ((row.data.Name || "") + " " + (row.data.Email || "")).toLowerCase();
   return hay.includes(q);
+}
+
+function groupByTimeSlot(rows){
+  const slot19 = [];
+  const slot21 = [];
+  rows.forEach((r) => {
+    const time = (r.data && r.data.Time || "").toLowerCase();
+    if (time.startsWith("21")) slot21.push(r);
+    else slot19.push(r);
+  });
+  return { slot19, slot21 };
 }
 
 function render(){
@@ -146,27 +215,116 @@ function render(){
     return;
   }
 
+  const { slot19, slot21 } = groupByTimeSlot(rows);
+
   const wrap = document.createElement("div");
-  wrap.className = "cards";
-  rows.forEach((r) => wrap.appendChild(buildCard(r)));
+  wrap.className = "slots-wrap";
+
+  if (slot19.length > 0){
+    const s19 = document.createElement("div");
+    s19.className = "time-slot";
+    s19.innerHTML = `<h3 class="slot-title">19:00</h3>`;
+    const cards19 = document.createElement("div");
+    cards19.className = "cards";
+    slot19.forEach((r) => cards19.appendChild(buildCard(r)));
+    s19.appendChild(cards19);
+    wrap.appendChild(s19);
+  }
+
+  if (slot21.length > 0){
+    const s21 = document.createElement("div");
+    s21.className = "time-slot";
+    s21.innerHTML = `<h3 class="slot-title">21:00</h3>`;
+    const cards21 = document.createElement("div");
+    cards21.className = "cards";
+    slot21.forEach((r) => cards21.appendChild(buildCard(r)));
+    s21.appendChild(cards21);
+    wrap.appendChild(s21);
+  }
+
   content.appendChild(wrap);
+}
+
+function timeRowHTML(r){
+  const d = r.data || {};
+  if (editingTimeId === r.id){
+    return `<div class="card__row"><b>Time</b>
+      <span class="time-edit">
+        <input type="text" id="timeInput-${r.id}" value="${escapeHtml(d.Time || "")}" placeholder="e.g. 21:00">
+        <button type="button" class="save" data-save-time="${r.id}">Save</button>
+        <button type="button" class="cancel" data-cancel-time="${r.id}">Cancel</button>
+      </span>
+    </div>`;
+  }
+  return `<div class="card__row"><b>Time</b><span>${escapeHtml(d.Time || "—")}</span></div>`;
 }
 
 function buildCard(r){
   const d = r.data || {};
+  const arrived = !!d.Arrived;
   const fields = [
-    ["Email", d.Email], ["Phone", d.Phone], ["Seats", d.Seats], ["Time", d.Time], ["Note", d.Note]
+    ["Email", d.Email], ["Phone", d.Phone], ["Seats", d.Seats]
   ].filter(([, v]) => v);
+  const noteField = d.Note ? [["Note", d.Note]] : [];
+
   const card = document.createElement("div");
-  card.className = "card";
+  card.className = "card" + (arrived ? " arrived" : "");
   card.innerHTML = `
     <div class="card__top">
-      <div class="card__name">${escapeHtml(d.Name || d.Email || "—")}</div>
+      <div>
+        <div class="card__name">${escapeHtml(d.Name || d.Email || "—")}</div>
+        ${arrived ? `<span class="card__badge">✓ Arrived</span>` : ""}
+      </div>
       <div class="card__ts">${escapeHtml(fmtTs(r.ts))}</div>
     </div>
     <div class="card__rows">
       ${fields.map(([k, v]) => `<div class="card__row"><b>${k}</b><span>${escapeHtml(v)}</span></div>`).join("")}
-    </div>`;
+      ${timeRowHTML(r)}
+      ${noteField.map(([k, v]) => `<div class="card__row"><b>${k}</b><span>${escapeHtml(v)}</span></div>`).join("")}
+    </div>
+    <div class="card__actions">
+      <button type="button" class="${arrived ? "is-active" : ""}" data-act="arrive">${arrived ? "Unmark arrival" : "Confirm arrival"}</button>
+      <button type="button" data-act="edit-time">Change time</button>
+      <button type="button" class="danger" data-act="delete">Delete</button>
+    </div>
+  `;
+
+  card.querySelector('[data-act="arrive"]').addEventListener("click", async () => {
+    const newData = { ...d, Arrived: !arrived };
+    await window.BoatoSubmissions.setData(r.id, newData);
+    r.data = newData;
+    render();
+  });
+  card.querySelector('[data-act="edit-time"]').addEventListener("click", () => {
+    editingTimeId = r.id;
+    render();
+    const input = document.getElementById("timeInput-" + r.id);
+    if (input) { input.focus(); input.select(); }
+  });
+  card.querySelector('[data-act="delete"]').addEventListener("click", async () => {
+    if (!confirm("Delete this reservation?")) return;
+    await window.BoatoSubmissions.remove(r.id);
+    ALL = ALL.filter((x) => x.id !== r.id);
+    render();
+  });
+
+  const saveTimeBtn = card.querySelector("[data-save-time]");
+  if (saveTimeBtn){
+    const commit = async () => {
+      const input = document.getElementById("timeInput-" + r.id);
+      const newData = { ...d, Time: input.value.trim() };
+      await window.BoatoSubmissions.setData(r.id, newData);
+      r.data = newData;
+      editingTimeId = null;
+      render();
+    };
+    saveTimeBtn.addEventListener("click", commit);
+    const input = card.querySelector("#timeInput-" + r.id);
+    if (input) input.addEventListener("keydown", (e) => { if (e.key === "Enter") commit(); });
+  }
+  const cancelTimeBtn = card.querySelector("[data-cancel-time]");
+  if (cancelTimeBtn) cancelTimeBtn.addEventListener("click", () => { editingTimeId = null; render(); });
+
   return card;
 }
 
@@ -194,6 +352,38 @@ async function loadAndRender(){
 
 document.getElementById("search").addEventListener("input", render);
 document.getElementById("exportBtn").addEventListener("click", exportCsv);
+
+/* ---------- Add reservation manually ---------- */
+function openAddModal(){
+  ["addName","addEmail","addPhone","addSeats","addTime","addNote"].forEach((id) => document.getElementById(id).value = "");
+  document.getElementById("addOverlay").classList.add("on");
+}
+function closeAddModal(){
+  document.getElementById("addOverlay").classList.remove("on");
+}
+document.getElementById("addBtn").addEventListener("click", openAddModal);
+document.getElementById("addCancel").addEventListener("click", closeAddModal);
+document.getElementById("addOverlay").addEventListener("click", (e) => { if (e.target.id === "addOverlay") closeAddModal(); });
+
+document.getElementById("addSave").addEventListener("click", async () => {
+  const data = {
+    Name: document.getElementById("addName").value.trim(),
+    Email: document.getElementById("addEmail").value.trim(),
+    Phone: document.getElementById("addPhone").value.trim(),
+    Seats: document.getElementById("addSeats").value.trim(),
+    Time: document.getElementById("addTime").value.trim(),
+    Note: document.getElementById("addNote").value.trim(),
+    Dinner: DINNER_NAME
+  };
+  Object.keys(data).forEach((k) => { if (!data[k] && k !== "Dinner") delete data[k]; });
+  if (!data.Name && !data.Email){
+    alert("Add at least a name or email.");
+    return;
+  }
+  await window.BoatoSubmissions.save("popup", data);
+  closeAddModal();
+  await loadAndRender();
+});
 
 /* ---------- Auth ---------- */
 function showDash(){

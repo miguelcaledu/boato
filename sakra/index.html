@@ -308,25 +308,36 @@ function buildCard(r){
     render();
   });
 
-  const timeEditSpan = card.querySelector(".time-edit");
-  if (timeEditSpan){
-    const saveBtn = timeEditSpan.querySelector("button.save");
-    const cancelBtn = timeEditSpan.querySelector("button.cancel");
+  // Attach time editor listeners (only when edit mode is active)
+  setTimeout(() => {
+    const timeEditSpan = card.querySelector(".time-edit");
+    if (!timeEditSpan) return;
+
     const input = timeEditSpan.querySelector("input");
+    const saveBtns = timeEditSpan.querySelectorAll("button.save");
+    const cancelBtns = timeEditSpan.querySelectorAll("button.cancel");
+
+    if (!input) return;
 
     const commit = async () => {
       const newTime = input.value.trim();
       const newData = { ...d, Time: newTime };
-      await window.BoatoSubmissions.setData(r.id, newData);
-      r.data = newData;
-      editingTimeId = null;
-      render();
+      try {
+        await window.BoatoSubmissions.setData(r.id, newData);
+        r.data = newData;
+        editingTimeId = null;
+        render();
+      } catch (err) {
+        console.error("Save time error:", err);
+        alert("Failed to save time. Please try again.");
+      }
     };
 
-    if (saveBtn) saveBtn.addEventListener("click", commit);
-    if (input) input.addEventListener("keydown", (e) => { if (e.key === "Enter") commit(); });
-    if (cancelBtn) cancelBtn.addEventListener("click", () => { editingTimeId = null; render(); });
-  }
+    saveBtns.forEach(btn => btn.addEventListener("click", commit));
+    cancelBtns.forEach(btn => btn.addEventListener("click", () => { editingTimeId = null; render(); }));
+    input.addEventListener("keydown", (e) => { if (e.key === "Enter") commit(); });
+    input.focus();
+  }, 0);
 
   return card;
 }

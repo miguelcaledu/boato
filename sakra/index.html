@@ -322,15 +322,10 @@ function buildCard(r){
     const commit = async () => {
       const newTime = input.value.trim();
       const newData = { ...d, Time: newTime };
-      try {
-        await window.BoatoSubmissions.setData(r.id, newData);
-        r.data = newData;
-        editingTimeId = null;
-        render();
-      } catch (err) {
-        console.error("Save time error:", err);
-        alert("Failed to save time. Please try again.");
-      }
+      await window.BoatoSubmissions.setData(r.id, newData);
+      r.data = newData;
+      editingTimeId = null;
+      render();
     };
 
     saveBtns.forEach(btn => btn.addEventListener("click", commit));

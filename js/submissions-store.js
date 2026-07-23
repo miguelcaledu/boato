@@ -132,6 +132,38 @@ async function setPaid(id, paid) {
   return true;
 }
 
+// Full-replace the `data` JSONB blob for a row — used to edit a field
+// (e.g. Time) or add a flag (e.g. Arrived) without needing a schema change.
+async function setData(id, data) {
+  if (supabaseReady()) {
+    try {
+      const res = await fetch(SUPABASE_URL + "/rest/v1/submissions?id=eq." + encodeURIComponent(id), {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+          "apikey": SUPABASE_ANON_KEY,
+          "Authorization": "Bearer " + SUPABASE_ANON_KEY,
+          "Prefer": "return=minimal"
+        },
+        body: JSON.stringify({ data })
+      });
+      if (res.ok) {
+        // Update local ALL array too
+        const row = ALL.find(x => x.id === id);
+        if (row) row.data = data;
+        return true;
+      }
+    } catch (e) {
+      console.warn("[Boato] Supabase setData failed, falling back to local:", e);
+    }
+  }
+  // Fallback: update local storage
+  const rows = localAll();
+  const r = rows.find((x) => x.id === id);
+  if (r) {r.data = data;localSaveAll(rows);}
+  return true;
+}
+
 async function remove(id) {
   if (supabaseReady()) {
     try {
@@ -163,4 +195,4 @@ function inferType(subject, data) {
   return "other";
 }
 
-window.BoatoSubmissions = { save, fetchAll, setRead, setPaid, remove, inferType, supabaseReady };
+window.BoatoSubmissions = { save, fetchAll, setRead, setPaid, setData, remove, inferType, supabaseReady };

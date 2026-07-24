@@ -67,7 +67,7 @@ function calendarHTML(dates, value, loc, none) {
     const full = inAvail && isDateFull(k);
     const ok = inAvail && !full;
     const sel = value === k;
-    const cls = "cal__cell" + (ok ? " is-avail" : "") + (full ? " is-full" : "") + (sel ? " is-sel" : "") + (sel && k === "2026-09-11" ? " is-sel-green" : "");
+    const cls = "cal__cell" + (ok ? " is-avail" : "") + (full ? " is-full" : "") + (sel ? " is-sel" : "") + (sel && k === "2026-09-18" ? " is-sel-green" : "");
     return `<button type="button" class="${cls}" data-date="${k}" ${ok ? "" : "disabled"} title="${full ? (none || "") : ""}">${d}</button>`;
   }).join("");
 
@@ -95,12 +95,15 @@ function modalContext() {
   const showGrid = isPopup && !modalState.popup;
   const popup = modalState.popup;
   const popupLabel = popup ? popup.name + " · " + popup.date + " · " + popup.place : "";
+  const isGreens = modalState.date === "2026-09-18" && !isPrivateCard && !isPopup;
   const titleText = popup ? popup.name
-    : (modalState.date === "2026-09-11" && !isPrivateCard && !isPopup ? "Boato x GreensandNuts"
+    : (isGreens ? "Boato x GreensandNuts"
       : (card && card.title ? card.title : m.title));
+  const totalPrice = isGreens ? (L.code === "PT" ? "75,00 €" : "€75.00") : (m.pricing && m.pricing.total[1]);
+  const metaText = isGreens ? m.meta.replace("60", "75") : m.meta;
   const eyebrowText = withCal ? m.eyebrow : (showGrid ? m.popupsLabel : (L.code === "PT" ? "Pedir informações" : "Request information"));
   const dateLabel = modalState.date ? new Intl.DateTimeFormat(loc, { weekday: "long", day: "numeric", month: "long", year: "numeric" }).format(new Date(modalState.date)) : "";
-  return { L, m, card, paid, loc, isPopup, isPrivateCard, seatOpts, withCal, showGrid, popup, popupLabel, titleText, eyebrowText, dateLabel };
+  return { L, m, card, paid, loc, isPopup, isPrivateCard, seatOpts, withCal, showGrid, popup, popupLabel, isGreens, titleText, totalPrice, metaText, eyebrowText, dateLabel };
 }
 
 function modalTitleHTML(ctx) {
@@ -110,12 +113,12 @@ function modalTitleHTML(ctx) {
 }
 
 function modalStep0HTML(ctx) {
-  const { L, m, card, isPopup, isPrivateCard, seatOpts, withCal, showGrid, popup, popupLabel, titleText, eyebrowText, dateLabel } = ctx;
+  const { L, m, card, isPopup, isPrivateCard, seatOpts, withCal, showGrid, popup, popupLabel, titleText, totalPrice, metaText, eyebrowText, dateLabel } = ctx;
   let body;
   if (showGrid) {
     body = `<div class="ppick">${m.popups.map((p) => `
-      <button type="button" class="ppcard" data-popup="${p.name}">
-        <span class="ppcard__img" style="${p.img ? `background-image:url(${resolveImage(p.img)})` : ""}"></span>
+      <button type="button" class="ppcard${p.sold ? " ppcard--sold" : ""}" data-popup="${p.name}" ${p.sold ? "disabled" : ""}>
+        <span class="ppcard__img" style="${p.img ? `background-image:url(${resolveImage(p.img)})` : ""}">${p.sold ? `<span class="ppcard__soldtag">${p.soldLabel || "Sold out"}</span>` : ""}</span>
         <span class="ppcard__body">
           <span class="ppcard__name">${p.name}</span>
           <span class="ppcard__meta">${p.date}${p.place ? " · " + p.place : ""}</span>
@@ -125,7 +128,7 @@ function modalStep0HTML(ctx) {
     const seatChoicesOpts = seatChoices(seatOpts, withCal && modalState.date ? seatsLeft(modalState.date) : null);
     body = `
       ${isPopup ? `<button type="button" class="modal__back" id="modalPopupBack">${m.popupBack}</button>` : ""}
-      ${withCal ? `<p class="meta" style="margin-bottom:8px">${m.meta}</p>` : ""}
+      ${withCal ? `<p class="meta" style="margin-bottom:8px">${metaText}</p>` : ""}
       ${withCal && m.deposit ? `<p class="modal__deposit">${m.deposit}</p>` : ""}
       ${isPopup && popup ? `<p class="meta" style="margin-bottom:18px">${popup.date} · ${popup.place}</p>` : ""}
       <form id="reserveForm">
@@ -150,7 +153,7 @@ function modalStep0HTML(ctx) {
         <input type="hidden" name="Pop-up" value="${popupLabel}">
         ${withCal && m.pricing ? `
         <div class="modal__pricing">
-          <div class="modal__pricing-row" style="font-size:14px"><span class="modal__pricing-label">${m.pricing.total[0]}</span><span class="modal__pricing-val">${m.pricing.total[1]}</span></div>
+          <div class="modal__pricing-row" style="font-size:14px"><span class="modal__pricing-label">${m.pricing.total[0]}</span><span class="modal__pricing-val">${totalPrice}</span></div>
           <div class="modal__pricing-row modal__pricing-row--deposit" style="font-size:14px"><span class="modal__pricing-label" style="font-size:14px">${m.pricing.deposit[0]}</span><span class="modal__pricing-val">${m.pricing.deposit[1]}</span></div>
         </div>` : ""}
         <button type="submit" class="btn btn--red btn--block">${withCal ? m.submit : (L.code === "PT" ? "Enviar pedido →" : "Send request →")}</button>

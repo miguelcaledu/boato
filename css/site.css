@@ -175,6 +175,11 @@ a{color:inherit;}
 .ppcard__body{display:flex;flex-direction:column;gap:3px;padding:11px 12px 13px;}
 .ppcard__name{font-family:var(--font-display);font-size:1.05rem;line-height:1.05;color:var(--ink);}
 .ppcard__meta{font-family:var(--font-mono);font-size:9.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-3);}
+.ppcard--sold{cursor:not-allowed;}
+.ppcard--sold:hover{border-color:var(--line-strong);transform:none;}
+.ppcard--sold .ppcard__img{position:relative;filter:grayscale(1);opacity:.55;}
+.ppcard--sold .ppcard__name,.ppcard--sold .ppcard__meta{opacity:.5;}
+.ppcard__soldtag{position:absolute;right:10px;top:10px;z-index:2;font-family:var(--font-mono);font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;padding:5px 10px;border-radius:999px;background:rgba(244,240,231,.92);color:var(--red);}
 .modal__back{align-self:flex-start;background:none;border:0;cursor:pointer;padding:0 0 14px;
   font-family:var(--font-mono);font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink);font-weight:600;
   transition:color var(--dur-fast) var(--ease);}

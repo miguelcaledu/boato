@@ -55,6 +55,10 @@ function eventCardHTML(d, L) {
     : d.tag;
   const addr = d.hideAddr ? "" : `<br>${L.dinners.addr}`;
   const cta = d.cta || (d.sold ? L.dinners.waitlist : L.dinners.reserve);
+  const isGreens = d.date === "2026-09-18";
+  const titleHTML = isGreens
+    ? `<span style="color:#DF0000">Boato</span> x <span style="color:#67863E">GreensandNuts</span>`
+    : d.title;
   return `<article class="ecard" data-ed="${d.ed}">
     <div class="ecard__img">
       ${eventCardMediaHTML(d, L)}
@@ -62,7 +66,7 @@ function eventCardHTML(d, L) {
     </div>
     <div class="ecard__b">
       <span class="eyebrow">${d.sub}</span>
-      <h3 style="font-size:22px">${d.title}</h3>
+      <h3 style="font-size:22px">${titleHTML}</h3>
       <div class="ecard__meta" style="font-size:10px">${d.meta}${addr}</div>
       <div class="ecard__foot">
         <span class="ecard__price">${d.price}</span>

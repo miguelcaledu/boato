@@ -294,7 +294,7 @@ function buildCard(r){
 
   card.querySelector('[data-act="arrive"]').addEventListener("click", async () => {
     const newData = { ...d, Arrived: !arrived };
-    await window.BoatoSubmissions.setData(r.id, newData);
+    await window.BoatoSubmissions.sakraUpdateData(SAKRA_PASSWORD, r.id, newData);
     r.data = newData;
     render();
   });
@@ -306,7 +306,7 @@ function buildCard(r){
   });
   card.querySelector('[data-act="delete"]').addEventListener("click", async () => {
     if (!confirm("Delete this reservation?")) return;
-    await window.BoatoSubmissions.remove(r.id);
+    await window.BoatoSubmissions.sakraRemove(SAKRA_PASSWORD, r.id);
     ALL = ALL.filter((x) => x.id !== r.id);
     render();
   });
@@ -325,7 +325,7 @@ function buildCard(r){
     const commit = async () => {
       const newTime = input.value.trim();
       const newData = { ...d, Time: newTime };
-      await window.BoatoSubmissions.setData(r.id, newData);
+      await window.BoatoSubmissions.sakraUpdateData(SAKRA_PASSWORD, r.id, newData);
       r.data = newData;
       editingTimeId = null;
       render();
@@ -357,8 +357,7 @@ function exportCsv(){
 }
 
 async function loadAndRender(){
-  const rows = await window.BoatoSubmissions.fetchAll();
-  ALL = rows.filter((r) => r.type === "popup" && (r.data && r.data.Dinner) === DINNER_NAME);
+  ALL = await window.BoatoSubmissions.sakraFetchAll(SAKRA_PASSWORD);
   render();
 }
 

@@ -103,6 +103,7 @@ const STRINGS = {
       dates: ["2026-09-11", "2026-09-18", "2026-09-25"],
       okTitle: "You're on the list.", okBody: "We'll confirm your seats by email shortly, and whisper the address 24 hours before. Welcome to the rumor.", close: "Close",
       paidTitle: "Seat confirmed.", paidBody: "Your €30 deposit is in and your seat is held. We’ll whisper the address 24 hours before. Welcome to the rumor.",
+      inquiryOkTitle: "Request received.", inquiryOkBody: "We'll be in touch with you shortly.",
     },
   },
 
@@ -209,6 +210,7 @@ const STRINGS = {
       dates: ["2026-09-11", "2026-09-18", "2026-09-25"],
       okTitle: "Está na lista.", okBody: "Confirmaremos os seus lugares por email em breve, e sussurraremos a morada 24 horas antes. Bem-vindo ao boato.", close: "Fechar",
       paidTitle: "Lugar confirmado.", paidBody: "O seu sinal de €30 está recebido e o lugar está reservado. Sussurraremos a morada 24 horas antes. Bem-vindo ao boato.",
+      inquiryOkTitle: "Pedido recebido.", inquiryOkBody: "Vamos entrar em contacto consigo em breve!",
     },
   },
 };

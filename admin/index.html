@@ -282,19 +282,19 @@ function buildCard(r){
   `;
   if (canPay){
     card.querySelector('[data-act="paid"]').addEventListener("click", async () => {
-      await window.BoatoSubmissions.setPaid(r.id, !r.paid);
+      await window.BoatoSubmissions.adminUpdate(ADMIN_PASSWORD, r.id, { paid: !r.paid });
       r.paid = !r.paid;
       render();
     });
   }
   card.querySelector('[data-act="read"]').addEventListener("click", async () => {
-    await window.BoatoSubmissions.setRead(r.id, !r.read);
+    await window.BoatoSubmissions.adminUpdate(ADMIN_PASSWORD, r.id, { read: !r.read });
     r.read = !r.read;
     render();
   });
   card.querySelector('[data-act="delete"]').addEventListener("click", async () => {
     if (!confirm("Delete this submission?")) return;
-    await window.BoatoSubmissions.remove(r.id);
+    await window.BoatoSubmissions.adminRemove(ADMIN_PASSWORD, r.id);
     ALL = ALL.filter((x) => x.id !== r.id);
     render();
   });
@@ -319,7 +319,7 @@ function exportCsv(type){
 }
 
 async function loadAndRender(){
-  ALL = await window.BoatoSubmissions.fetchAll();
+  ALL = await window.BoatoSubmissions.adminFetchAll(ADMIN_PASSWORD);
   render();
 }
 

@@ -191,11 +191,13 @@ function modalStep1HTML(ctx) {
 }
 
 function modalStep2HTML(ctx) {
-  const { m, paid } = ctx;
+  const { m, paid, isPrivateCard } = ctx;
+  const title = isPrivateCard ? m.inquiryOkTitle : (paid ? m.paidTitle : m.okTitle);
+  const body = isPrivateCard ? m.inquiryOkBody : (paid ? m.paidBody : m.okBody);
   return `<div class="modal__success">
     <div class="mk"></div>
-    <h3>${paid ? m.paidTitle : m.okTitle}</h3>
-    <p>${paid ? m.paidBody : m.okBody}</p>
+    <h3>${title}</h3>
+    <p>${body}</p>
     <button type="button" class="btn btn--ink" style="margin-top:26px" id="modalDone">${m.close}</button>
   </div>`;
 }

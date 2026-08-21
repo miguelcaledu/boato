@@ -33,6 +33,15 @@
 const SUPABASE_URL = "https://eyyssknsvojkufdehhit.supabase.co";
 const SUPABASE_ANON_KEY = "sb_publishable_xHjQv6p_kcs5XznseDuXZQ_q-EUpHh3";
 
+// SHA-256 hex digest — used by /admin and /sakra to check a typed
+// password against a stored hash instead of a plaintext constant, so
+// "View Source" on the page never reveals the real password.
+async function sha256Hex(str) {
+  const bytes = new TextEncoder().encode(str);
+  const hashBuffer = await crypto.subtle.digest("SHA-256", bytes);
+  return Array.from(new Uint8Array(hashBuffer)).map((b) => b.toString(16).padStart(2, "0")).join("");
+}
+
 function supabaseReady() {
   return SUPABASE_URL && !SUPABASE_URL.startsWith("REPLACE_WITH") &&
   SUPABASE_ANON_KEY && !SUPABASE_ANON_KEY.startsWith("REPLACE_WITH");
@@ -221,7 +230,7 @@ async function sakraRemove(secret, id) {
 }
 
 window.BoatoSubmissions = {
-  save, inferType, supabaseReady,
+  save, inferType, supabaseReady, sha256Hex,
   adminFetchAll, adminUpdate, adminRemove,
   sakraFetchAll, sakraUpdateData, sakraRemove
 };

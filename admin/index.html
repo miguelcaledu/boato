@@ -164,11 +164,20 @@
 <script src="../js/submissions-store.js"></script>
 <script>
 /* ============================================================
-   Shared-password gate. Client-side only — fine for a small
-   private admin view, not a substitute for real auth. Change the
-   password by editing ADMIN_PASSWORD below.
+   Shared-password gate. The real password is never stored in this
+   file — only its SHA-256 hash, so anyone browsing the GitHub repo
+   or viewing page source can't read it. The actual password (typed
+   at login) is kept in sessionStorage only, cleared when the tab
+   closes, and sent to Supabase to satisfy the server-side check in
+   supabase-rls-setup.sql (which must be updated together — see the
+   "keep in sync" note in that file).
+
+   To change the password: pick a new one, compute its SHA-256 hash
+   (e.g. run `echo -n 'yourpassword' | shasum -a 256` in Terminal),
+   paste the hash below, AND update the matching Postgres function
+   in supabase-rls-setup.sql with the new password.
    ============================================================ */
-const ADMIN_PASSWORD = "M&Mangelcal";
+const ADMIN_PASSWORD_HASH = "956eb928a61dbc2e3468cf3ef3142cbfb0b586615fbf9db1b83a5ef62043a10e";
 const SESSION_KEY = "boato_admin_session";
 
 const SECTIONS = [
@@ -282,19 +291,19 @@ function buildCard(r){
   `;
   if (canPay){
     card.querySelector('[data-act="paid"]').addEventListener("click", async () => {
-      await window.BoatoSubmissions.adminUpdate(ADMIN_PASSWORD, r.id, { paid: !r.paid });
+      await window.BoatoSubmissions.adminUpdate(getAdminSecret(), r.id, { paid: !r.paid });
       r.paid = !r.paid;
       render();
     });
   }
   card.querySelector('[data-act="read"]').addEventListener("click", async () => {
-    await window.BoatoSubmissions.adminUpdate(ADMIN_PASSWORD, r.id, { read: !r.read });
+    await window.BoatoSubmissions.adminUpdate(getAdminSecret(), r.id, { read: !r.read });
     r.read = !r.read;
     render();
   });
   card.querySelector('[data-act="delete"]').addEventListener("click", async () => {
     if (!confirm("Delete this submission?")) return;
-    await window.BoatoSubmissions.adminRemove(ADMIN_PASSWORD, r.id);
+    await window.BoatoSubmissions.adminRemove(getAdminSecret(), r.id);
     ALL = ALL.filter((x) => x.id !== r.id);
     render();
   });
@@ -319,7 +328,7 @@ function exportCsv(type){
 }
 
 async function loadAndRender(){
-  ALL = await window.BoatoSubmissions.adminFetchAll(ADMIN_PASSWORD);
+  ALL = await window.BoatoSubmissions.adminFetchAll(getAdminSecret());
   render();
 }
 
@@ -360,16 +369,25 @@ document.getElementById("addSave").addEventListener("click", async () => {
   await loadAndRender();
 });
 
-/* ---------- Auth ---------- */
+/* ---------- Auth ----------
+   The typed password itself (not a hash) is what's stored in
+   sessionStorage and sent to Supabase — the RPC functions in
+   supabase-rls-setup.sql compare against the real password
+   server-side. Only the *verification* here is hash-based, so this
+   file never contains the real password in the clear. */
+function getAdminSecret(){
+  return sessionStorage.getItem(SESSION_KEY) || "";
+}
 function showDash(){
   document.getElementById("loginWrap").style.display = "none";
   document.getElementById("dash").classList.add("on");
   loadAndRender();
 }
-function tryLogin(){
+async function tryLogin(){
   const val = document.getElementById("pw").value;
-  if (val === ADMIN_PASSWORD){
-    sessionStorage.setItem(SESSION_KEY, "1");
+  const hash = await window.BoatoSubmissions.sha256Hex(val);
+  if (hash === ADMIN_PASSWORD_HASH){
+    sessionStorage.setItem(SESSION_KEY, val);
     showDash();
   } else {
     document.getElementById("pwErr").textContent = "Incorrect password.";
@@ -384,7 +402,7 @@ document.getElementById("logoutBtn").addEventListener("click", () => {
   document.getElementById("pw").value = "";
 });
 
-if (sessionStorage.getItem(SESSION_KEY) === "1") showDash();
+if (sessionStorage.getItem(SESSION_KEY)) showDash();
 </script>
 </body>
 </html>

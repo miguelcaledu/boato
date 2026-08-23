@@ -384,13 +384,24 @@ function showDash(){
   loadAndRender();
 }
 async function tryLogin(){
-  const val = document.getElementById("pw").value;
-  const hash = await window.BoatoSubmissions.sha256Hex(val);
-  if (hash === ADMIN_PASSWORD_HASH){
-    sessionStorage.setItem(SESSION_KEY, val);
-    showDash();
-  } else {
-    document.getElementById("pwErr").textContent = "Incorrect password.";
+  const errEl = document.getElementById("pwErr");
+  errEl.textContent = "";
+  try {
+    if (!window.BoatoSubmissions || !window.BoatoSubmissions.sha256Hex){
+      errEl.textContent = "Page didn't fully load — please hard-refresh (Cmd/Ctrl+Shift+R) and try again.";
+      return;
+    }
+    const val = document.getElementById("pw").value;
+    const hash = await window.BoatoSubmissions.sha256Hex(val);
+    if (hash === ADMIN_PASSWORD_HASH){
+      sessionStorage.setItem(SESSION_KEY, val);
+      showDash();
+    } else {
+      errEl.textContent = "Incorrect password.";
+    }
+  } catch (e) {
+    console.error("[Boato] Login failed:", e);
+    errEl.textContent = "Something went wrong — please hard-refresh (Cmd/Ctrl+Shift+R) and try again.";
   }
 }
 document.getElementById("pwSubmit").addEventListener("click", tryLogin);
